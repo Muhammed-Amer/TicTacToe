@@ -8,6 +8,17 @@ class TicTacToe:
         self.root.title("Tic Tac Toe")
         self.root.resizable(False, False)
 
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
+        window_width = int(screen_width * 0.295) 
+        window_height = int(screen_height * 0.55)
+
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+
+        root.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
         self.player_symbol = "O"
         self.computer_symbol = "X"
         self.current_player = self.player_symbol
@@ -46,7 +57,7 @@ class TicTacToe:
         self.status_label.config(text=text, fg=color)
 
     def make_move(self, row, col):
-        if self.game_over or self.board_state[row][col] != "":
+        if(self.game_over or self.board_state[row][col] != ""):
             return
 
         self.board_state[row][col] = self.player_symbol
@@ -54,7 +65,7 @@ class TicTacToe:
         self.board[row][col].config(foreground=self.player_color)
         self.check_winner()
 
-        if not self.game_over:
+        if(not self.game_over):
             self.current_player = self.computer_symbol
             self.update_status_label(f"{self.current_player}'s turn")
             computer_move(self.board_state, self.computer_symbol, self.player_symbol, self.computer_move_callback)
@@ -66,36 +77,36 @@ class TicTacToe:
         self.board[row][col].config(foreground=self.computer_color)
         self.check_winner()
 
-        if not self.game_over:
+        if(not self.game_over):
             self.current_player = self.player_symbol
             self.update_status_label(f"{self.current_player}'s turn")
 
     def check_winner(self):
         winner = evaluate(self.board_state, self.computer_symbol, self.player_symbol)
-        if winner:
+        if(winner):
             self.game_over = True
             self.update_status_label(f"{winner} wins!", self.computer_color if winner == self.computer_symbol else self.player_color)
             self.highlight_winner(winner)
-        elif is_draw(self.board_state):
+        elif(is_draw(self.board_state)):
             self.game_over = True
             self.update_status_label("It's a Draw!", self.computer_color)
 
     def highlight_winner(self, winner_symbol):
         for row in range(3):
-            if self.board_state[row][0] == self.board_state[row][1] == self.board_state[row][2] == winner_symbol:
+            if(self.board_state[row][0] == self.board_state[row][1] == self.board_state[row][2] == winner_symbol):
                 for col in range(3):
                     self.board[row][col].config(bg=self.light_grey_color)
                 return
         for col in range(3):
-            if self.board_state[0][col] == self.board_state[1][col] == self.board_state[2][col] == winner_symbol:
+            if(self.board_state[0][col] == self.board_state[1][col] == self.board_state[2][col] == winner_symbol):
                 for row in range(3):
                     self.board[row][col].config(bg=self.light_grey_color)
                 return
-        if self.board_state[0][0] == self.board_state[1][1] == self.board_state[2][2] == winner_symbol:
+        if(self.board_state[0][0] == self.board_state[1][1] == self.board_state[2][2] == winner_symbol):
             for i in range(3):
                 self.board[i][i].config(bg=self.light_grey_color)
             return
-        if self.board_state[0][2] == self.board_state[1][1] == self.board_state[2][0] == winner_symbol:
+        if(self.board_state[0][2] == self.board_state[1][1] == self.board_state[2][0] == winner_symbol):
             for i in range(3):
                 self.board[i][2 - i].config(bg=self.light_grey_color)
 
@@ -109,7 +120,7 @@ class TicTacToe:
                 self.board[row][col].config(text="", bg=self.grey_color, fg=self.player_color)
 
 
-if __name__ == "__main__":
+if(__name__ == "__main__"):
     root = tk.Tk()
     TicTacToe(root)
     root.mainloop()

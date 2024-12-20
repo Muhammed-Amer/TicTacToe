@@ -3,9 +3,33 @@ from logic import computer_move, evaluate, is_draw
 
 
 class TicTacToe:
+    # constructor
     def __init__(self, root):
         self.root = root
         self.root.title("Tic Tac Toe")
+
+        self.player_symbol = "O"
+        self.computer_symbol = "X"
+
+        # first turn 0
+        # second turn x
+        self.current_player = self.player_symbol
+
+        # if all buttons has a value (x, o)
+        # if someone won
+        self.game_over = False
+
+        self.board_state = [["" for _ in range(3)] for _ in range(3)]
+
+        self.player_color = "#D8A25E"
+        self.computer_color = "#A04747"
+        self.grey_color = "#343131"
+        self.light_grey_color = "#EEDF7A"
+
+        self.initialize_ui()
+
+    def initialize_ui(self):
+        # fixed size
         self.root.resizable(False, False)
 
         screen_width = root.winfo_screenwidth()
@@ -18,21 +42,7 @@ class TicTacToe:
         y = (screen_height // 2) - (window_height // 2)
 
         root.geometry(f"{window_width}x{window_height}+{x}+{y}")
-
-        self.player_symbol = "O"
-        self.computer_symbol = "X"
-        self.current_player = self.player_symbol
-        self.game_over = False
-        self.board_state = [["" for _ in range(3)] for _ in range(3)]
-
-        self.player_color = "#4584b6"
-        self.computer_color = "#ffde47"
-        self.grey_color = "#343434"
-        self.light_grey_color = "#646464"
-
-        self.initialize_ui()
-
-    def initialize_ui(self):
+        
         self.frame = tk.Frame(self.root, bg=self.grey_color)
         self.frame.pack()
 
@@ -57,6 +67,7 @@ class TicTacToe:
         self.status_label.config(text=text, fg=color)
 
     def make_move(self, row, col):
+        # check if the button already has a value
         if(self.game_over or self.board_state[row][col] != ""):
             return
 
@@ -118,7 +129,6 @@ class TicTacToe:
         for row in range(3):
             for col in range(3):
                 self.board[row][col].config(text="", bg=self.grey_color, fg=self.player_color)
-
 
 if(__name__ == "__main__"):
     root = tk.Tk()

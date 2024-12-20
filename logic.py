@@ -4,13 +4,13 @@ def minimax(board, is_maximizing, computer_symbol, player_symbol):
     winner = evaluate(board, computer_symbol, player_symbol)
 
     if(winner == computer_symbol):
-        return 1
+        return 10
     elif(winner == player_symbol):
-        return -1
+        return -10
     elif(is_draw(board)):
         return 0
 
-    best_score = float('-inf') if is_maximizing else float('inf')
+    best_score = -1000 if is_maximizing else 1000
     for row in range(3):
         for col in range(3):
             if(board[row][col] == ""):
@@ -28,8 +28,10 @@ def evaluate(board, computer_symbol, player_symbol):
     for col in range(3):
         if(board[0][col] == board[1][col] == board[2][col] != ""):
             return board[0][col]
+    # first diagonal
     if(board[0][0] == board[1][1] == board[2][2] != ""):
         return board[0][0]
+    # second diagonal
     if(board[0][2] == board[1][1] == board[2][0] != ""):
         return board[0][2]
     return None
@@ -44,7 +46,7 @@ def is_draw(board):
 
 def computer_move(board, computer_symbol, player_symbol, gui_callback):
     def calculate_best_move():
-        best_score = -float('inf')
+        best_score = -1000
         best_move = None
 
         for row in range(3):
